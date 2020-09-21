@@ -32,18 +32,14 @@ class RoomsFilter extends Component {
     };
 
     sortBy(sortArr, sortBy) {
-        const [{ price: minPrice }, { price: maxPrice }] = sortArr.filter(item => {
-            const arrOfItems = sortArr.map(item => item[sortBy]);
-
-            return item[sortBy] === Math.min(...arrOfItems) || item[sortBy] === Math.max(...arrOfItems);
-        });
-
-        return [minPrice, maxPrice];
+        return sortArr
+            .sort((a, b) => a[sortBy] - b[sortBy])
+            .reduce((acc, item, idx, arr) => (!idx || arr.length - 1 === idx ? [...acc, item] : acc), []);
     }
 
     getMinmaxPriceSize() {
-        const [minPrice, maxPrice] = this.sortBy(this.state.rooms, "price");
-        const [minSize, maxSize] = this.sortBy(this.state.rooms, "size");
+        const [{ price: minPrice }, { price: maxPrice }] = this.sortBy(this.state.rooms, "price") || [];
+        const [{ size: minSize }, { size: maxSize }] = this.sortBy(this.state.rooms, "size");
 
         this.setState({ minPrice, maxPrice, minSize, maxSize, price: maxPrice, smSize: minSize, lgSize: maxSize });
     }
