@@ -11,6 +11,8 @@ class RoomsFilter extends Component {
         maxPrice: 0,
         minSize: 0,
         maxSize: 0,
+        smSize: 0,
+        lgSize: 0,
         breakfast: false,
         pets: false,
         rooms: this.props.filteredRooms[0],
@@ -43,7 +45,7 @@ class RoomsFilter extends Component {
         const [minPrice, maxPrice] = this.sortBy(this.state.rooms, "price");
         const [minSize, maxSize] = this.sortBy(this.state.rooms, "size");
 
-        this.setState({ minPrice, maxPrice, minSize, maxSize, price: maxPrice });
+        this.setState({ minPrice, maxPrice, minSize, maxSize, price: maxPrice, smSize: minSize, lgSize: maxSize });
     }
 
     filterRooms() {
@@ -67,7 +69,20 @@ class RoomsFilter extends Component {
     }
 
     render() {
-        const { rooms, type, minSize, maxSize, minPrice, maxPrice, price, capacity, breakfast, pets } = this.state;
+        const {
+            rooms,
+            type,
+            minSize,
+            maxSize,
+            minPrice,
+            maxPrice,
+            price,
+            capacity,
+            breakfast,
+            pets,
+            smSize,
+            lgSize,
+        } = this.state;
 
         const filterRoomsTypes = ["all", ...new Set(rooms.map(({ type }) => type))];
         const filterRoomsCapacities = [...new Set(rooms.map(({ capacity }) => capacity))];
@@ -105,7 +120,6 @@ class RoomsFilter extends Component {
                             type="range"
                             name="price"
                             className="form-control"
-                            step={maxPrice % 10}
                             min={minPrice}
                             max={maxPrice}
                             value={price}
@@ -120,7 +134,7 @@ class RoomsFilter extends Component {
                                 type="number"
                                 name="minSize"
                                 className="size-input"
-                                min={200}
+                                min={smSize}
                                 value={minSize}
                                 onChange={this.handleChange}
                             />
@@ -128,7 +142,7 @@ class RoomsFilter extends Component {
                                 type="number"
                                 name="maxSize"
                                 className="size-input"
-                                max={1000}
+                                max={lgSize}
                                 value={maxSize}
                                 onChange={this.handleChange}
                             />
