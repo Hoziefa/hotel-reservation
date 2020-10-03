@@ -34,7 +34,7 @@ class RoomsFilter extends Component {
     sortBy(sortArr, sortBy) {
         return sortArr
             .sort((a, b) => a[sortBy] - b[sortBy])
-            .reduce((acc, item, idx, arr) => (!idx || arr.length - 1 === idx ? [...acc, item] : acc), []);
+            .reduce((acc, item, idx, arr) => (!idx || idx === arr.length - 1 ? [...acc, item] : acc), []);
     }
 
     getMinmaxPriceSize() {
